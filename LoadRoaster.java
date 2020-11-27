@@ -26,6 +26,7 @@ public class LoadRoaster extends JPanel {
         this.table.setPreferredScrollableViewportSize(new Dimension(700, 70));
         this.table.setFillsViewportHeight(true);
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        this.table.setTableHeader(null);
         JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
         add(ButtonOpen, BorderLayout.SOUTH);
         // Create the scroll pane and add the table to it.

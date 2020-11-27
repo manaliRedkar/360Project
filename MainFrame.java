@@ -21,9 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import java.io.File;
 
 
-public class MainFrame extends JFrame implements MenuListener
+
+public class MainFrame extends JFrame implements ActionListener, MenuListener 
 {
 
       JMenuBar mymenubar; 
@@ -51,7 +53,12 @@ public class MainFrame extends JFrame implements MenuListener
         menuitem2 = new JMenuItem("Add attendance"); 
         menuitem3 = new JMenuItem("Save");
         menuitem4 = new JMenuItem("Plot Data");
-        
+
+        menuitem1.addActionListener(this);
+        menuitem2.addActionListener(this);
+        menuitem3.addActionListener(this);
+        menuitem4.addActionListener(this);
+
         file.add(menuitem1); 
         file.add(menuitem2); 
         file.add(menuitem3);
@@ -65,6 +72,35 @@ public class MainFrame extends JFrame implements MenuListener
         about.addMenuListener(this);
 
     }
+
+    public void actionPerformed(ActionEvent e){
+      if(e.getSource() == menuitem1)
+      {
+        System.out.println("roasttt");
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+          File selectedFile = fileChooser.getSelectedFile();
+          System.out.println(selectedFile.getName());
+        }
+
+
+
+
+      }
+
+
+    }
+  /*
+    class event implements ActionListener{
+      public void actionPerformed(ActionEvent e){
+        LoadRoaster lr = new LoadRoaster(MainFrame.this);
+        lr.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        lr.setSize(300,100);
+        lr.setLocation(300,300);
+        lr.setVisible(true);
+      }
+    }*/
     
     @Override
     public void menuSelected(MenuEvent e)
