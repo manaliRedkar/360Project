@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,8 +18,8 @@ import javax.swing.table.AbstractTableModel;
 public class LoadRoaster extends JPanel {
     private final JTable table;
 
-    public LoadRoaster(JFrame frame1) {
-        //super(frame1,"Load a Roaster", true);
+    public LoadRoaster() {
+       // super(frame, "Load a Roaster", true);
         setLayout(new BorderLayout ());
         //super(frame1, "Load Roaster", true);
         this.table = new JTable(new MyModel());
@@ -35,7 +37,11 @@ public class LoadRoaster extends JPanel {
         CSVFile Rd = new CSVFile();
         MyModel NewModel = new MyModel();
         this.table.setModel(NewModel);
+        
+    
+        
         File DataFile = new File("Student.csv");
+        
         ArrayList<String[]> Rs2 = Rd.ReadCSVfile(DataFile);
         NewModel.AddCSVData(Rs2);
         System.out.println("Rows: " + NewModel.getRowCount());
@@ -78,8 +84,7 @@ public class LoadRoaster extends JPanel {
     }
 
     class MyModel extends AbstractTableModel {
-        //Your CSV needs to be same number of columns as this array here
-        private final String[] columnNames = { "ID", "FS", "LS", "PP", "ACAD", "ASUrite","1","2","3","4","5","6","7"};
+        private final String[] columnNames = { "ID", "FS", "LS", "PP", "ACAD", "ASUrite"};
         private ArrayList<String[]> Data = new ArrayList<String[]>();
 
         public void AddCSVData(ArrayList<String[]> DataIn) {
