@@ -22,19 +22,49 @@ import java.awt.event.ActionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.io.File;
+import javax.swing.JComboBox;
 
 
 
 public class MainFrame extends JFrame implements ActionListener, MenuListener 
 {
-
+      JComboBox day,month;
       JMenuBar mymenubar; 
-  
+      JButton b;
+      JFrame fr;
     // JMenu 
       JMenu file, about; 
   
     // Menu items 
       JMenuItem menuitem1, menuitem2, menuitem3, menuitem4, ab;
+
+
+    public void calender()
+    {
+        fr = new JFrame();
+        String[] dayStr = {"Select a day", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+        String[] monthStr = {"Select a month", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec", };
+
+        
+        day = new JComboBox(dayStr);
+        month = new JComboBox(monthStr);
+
+        b = new JButton("Set");
+        b.addActionListener(this);
+
+        day.setSelectedIndex(0);
+        day.setEditable(true);
+        month.setSelectedIndex(0);
+        month.setEditable(true);
+
+        fr.add(day, BorderLayout.WEST);
+        fr.add(month, BorderLayout.EAST);
+        fr.add(b, BorderLayout.SOUTH);
+        fr.setSize(255,100);
+        fr.setLocationRelativeTo(null);
+        fr.setVisible(true);
+     
+    }
 
     //constructor
     public MainFrame()
@@ -49,7 +79,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
         file = new JMenu("File"); 
         about = new JMenu("About");
         
-        menuitem1 = new JMenuItem("Load a Roaster"); 
+        menuitem1 = new JMenuItem("Load a Roster"); 
         menuitem2 = new JMenuItem("Add attendance"); 
         menuitem3 = new JMenuItem("Save");
         menuitem4 = new JMenuItem("Plot Data");
@@ -73,6 +103,9 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
 
     }
 
+
+
+
     public void actionPerformed(ActionEvent e){
       if(e.getSource() == menuitem1)
       {
@@ -81,16 +114,53 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
           File selectedFile = fileChooser.getSelectedFile();
-          System.out.println(selectedFile.getName());
+          String fileName = selectedFile.getName();
+          System.out.println(fileName);
+          //LoadRoaster(fileName);
+          LoadRoster l = new LoadRoster(fileName);
+          this.setContentPane(l);
+          revalidate();
+          
         }
-
-
-
-
       }
 
+      else if (e.getSource() == menuitem2)
+      {
+          calender();
+	    }
+
+      else if(e.getSource() == b)
+      {
+        fr.dispose();
+        System.out.println(day.getSelectedItem());
+        System.out.println(month.getSelectedItem());
+        System.out.println("ADD attendants");
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+          File selectedFile = fileChooser.getSelectedFile();
+          String fileName = selectedFile.getName();
+          System.out.println(fileName);
+          AttendanceRoster a = new AttendanceRoster(fileName);
+          this.setContentPane(a);
+          revalidate();
+        }
+        
+      }
+
+      
+
+      else if (e.getSource() == menuitem3)
+      {
+		    System.out.println("SAVE ");
+	    }
+	    else //(e.getsource() == menuitem4)
+	    {
+		    System.out.println("Plott");
+	    }
 
     }
+
   /*
     class event implements ActionListener{
       public void actionPerformed(ActionEvent e){
@@ -100,7 +170,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
         lr.setLocation(300,300);
         lr.setVisible(true);
       }
-    }*/
+    }
+  */
     
     @Override
     public void menuSelected(MenuEvent e)

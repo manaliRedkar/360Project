@@ -15,10 +15,11 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.AbstractTableModel;
 
-public class LoadRoaster extends JPanel {
+public class LoadRoster extends JPanel {
     private final JTable table;
 
-    public LoadRoaster() {
+    public LoadRoster(String fileName) {
+        System.out.println(fileName);
        // super(frame, "Load a Roaster", true);
         setLayout(new BorderLayout ());
         //super(frame1, "Load Roaster", true);
@@ -41,7 +42,7 @@ public class LoadRoaster extends JPanel {
         
     
         
-        File DataFile = new File("Student.csv");
+        File DataFile = new File(fileName);
         
         ArrayList<String[]> Rs2 = Rd.ReadCSVfile(DataFile);
         NewModel.AddCSVData(Rs2);
@@ -72,14 +73,17 @@ public class LoadRoaster extends JPanel {
         }// end of ReadFile method
     }// end of CSVFile class
 
-    private static void createAndShowGUI() {
+    
+    private static void createAndShowGUI(String fileName) {
         // Create and set up the window.
-        JFrame frame = new JFrame("LoadRoaster");
+        JFrame frame = new JFrame("LoadRoster");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Create and set up the content pane.
-        LoadRoaster newContentPane = new LoadRoaster();
+
+        LoadRoster newContentPane = new LoadRoster(fileName);
         frame.setContentPane(newContentPane);
-        // Display the window.
+
+        // Display the window
         frame.pack();
         frame.setVisible(true);
     }
@@ -115,7 +119,7 @@ public class LoadRoaster extends JPanel {
     }
 
     
-    
+    /*
     public static void main(String[] args) {
         // Schedule a job for the event-dispatching thread:
         // creating and showing this application's GUI.
@@ -125,6 +129,6 @@ public class LoadRoaster extends JPanel {
                 createAndShowGUI();
             }
         });
-    }
+    }*/
     
 }
