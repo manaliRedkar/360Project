@@ -60,6 +60,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
 
       JScrollPane scrollPane;
 
+       String date;
+
 
 
     // JMenu 
@@ -81,6 +83,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
         day = new JComboBox(dayStr);
         month = new JComboBox(monthStr);
 
+
+
         b = new JButton("Set");
         b.addActionListener(this);
 
@@ -95,6 +99,7 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
         fr.setSize(255,100);
         fr.setLocationRelativeTo(null);
         fr.setVisible(true);
+       
      
     }
 
@@ -392,7 +397,7 @@ for (int i = 0 ; i < row1 ; i++)
   }
 
 
-String colList[] = { "ID", "First Name", "Last Name", "Program", "Level", "ASURITE", "wtv"};
+String colList[] = { "ID", "First Name", "Last Name", "Program", "Level", "ASURITE", date };
 JTable newTab = new JTable(myArr, colList);
 Font font = new Font("Verdana", Font.PLAIN, 12);
 
@@ -516,8 +521,12 @@ table = newTab;
       else if(e.getSource() == b)
       {
         fr.dispose();
-        System.out.println(day.getSelectedItem());
-        System.out.println(month.getSelectedItem());
+
+        String d =  day.getSelectedItem().toString();
+        String m =  month.getSelectedItem().toString();
+        date = m + " " + d; 
+  
+
         System.out.println("ADD attendants");
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
