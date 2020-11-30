@@ -60,24 +60,17 @@ import java.time.LocalDate;
 public class AttendanceRoster extends JPanel {
     private final JTable table;
 
-    	private JFrame frame2;
-	private DatePicker inPicker;
-	//private DatePicker fmPicker;
-	//private DatePicker toPicker;
-	private static final String pattern = "dd-MMM-yy";
-	enum DateParameterType { FROM_DATE, TO_DATE };
-
 
     public AttendanceRoster(String fileName) {
         System.out.println(fileName);
        // super(frame, "Load a Roaster", true);
         setLayout(new BorderLayout ());
         //super(frame1, "Load Roaster", true);
-        this.table = new JTable(new MyModel());
-        this.table.setPreferredScrollableViewportSize(new Dimension(700, 70));
-        this.table.setFillsViewportHeight(true);
-        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        this.table.setTableHeader(null);
+        this.table2 = new JTable(new MyModel());
+        this.table2.setPreferredScrollableViewportSize(new Dimension(700, 70));
+        this.table2.setFillsViewportHeight(true);
+        this.table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //this.table.setTableHeader(null);
         JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
         add(ButtonOpen, BorderLayout.SOUTH);
         // Create the scroll pane and add the table to it.
@@ -88,7 +81,7 @@ public class AttendanceRoster extends JPanel {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         CSVFile Rd = new CSVFile();
         MyModel NewModel = new MyModel();
-        this.table.setModel(NewModel);
+        this.table2.setModel(NewModel);
         
     
         
@@ -139,7 +132,7 @@ public class AttendanceRoster extends JPanel {
     }
 
     class MyModel extends AbstractTableModel {
-        private final String[] columnNames = { "ID", "Time"};
+        private final String[] columnNames = { "ASURite", "Time"};
         private ArrayList<String[]> Data = new ArrayList<String[]>();
 
         public void AddCSVData(ArrayList<String[]> DataIn) {

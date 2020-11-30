@@ -24,6 +24,23 @@ import javax.swing.event.MenuListener;
 import java.io.File;
 import javax.swing.JComboBox;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 
 public class MainFrame extends JFrame implements ActionListener, MenuListener 
@@ -32,8 +49,17 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
       JMenuBar mymenubar; 
       JButton b;
       JFrame fr;
+      String [][]myArr;
+      String [][]tempArr;
+
+      int row1,col1;
+      int row2,col2;
+
     // JMenu 
       JMenu file, about; 
+
+      JTable table; // Load a roster
+      JTable table2; //Atendance
   
     // Menu items 
       JMenuItem menuitem1, menuitem2, menuitem3, menuitem4, ab;
@@ -103,10 +129,196 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
 
     }
 
+//*************************************************************************************************************** */
+      public void LoadRoster(String fileName) {
+        System.out.println(fileName);
+       // super(frame, "Load a Roaster", true);
+        setLayout(new BorderLayout ());
+        //super(frame1, "Load Roaster", true);
+        table = new JTable(new MyModel1());
+        table.setPreferredScrollableViewportSize(new Dimension(700, 70));
+        table.setFillsViewportHeight(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //this.table.setTableHeader(null);
+        JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        add(ButtonOpen, BorderLayout.SOUTH);
+        // Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table);
+        // Add the scroll pane to this panel.
+        add(scrollPane, BorderLayout.CENTER);
+        // add a nice border
+        table.setBorder(new EmptyBorder(5, 5, 5, 5));
+        CSVFile1 Rd = new CSVFile1();
+        MyModel1 NewModel = new MyModel1();
+        this.table.setModel(NewModel);
+        
+    
+        
+        File DataFile = new File(fileName);
+        
+        ArrayList<String[]> Rs2 = Rd.ReadCSVfile(DataFile);
+        NewModel.AddCSVData(Rs2);
+
+        row1= NewModel.getRowCount();
+        col1=NewModel.getColumnCount();
+        System.out.println("Rows: " + row1);
+        System.out.println("Cols: " + col1);
+    }
+
+    public class CSVFile1 {
+        private final ArrayList<String[]> Rs = new ArrayList<String[]>();
+        private String[] OneRow;
+
+        public ArrayList<String[]> ReadCSVfile(File DataFile) {
+            try {
+                BufferedReader brd = new BufferedReader(new FileReader(DataFile));
+                while (brd.ready()) {
+                    String st = brd.readLine();
+                    OneRow = st.split(",|\\s|;");
+                    Rs.add(OneRow);
+                    System.out.println(Arrays.toString(OneRow));
+                } // end of while
+            } // end of try
+            catch (Exception e) {
+                String errmsg = e.getMessage();
+                System.out.println("File not found:" + errmsg);
+            } // end of Catch
+            return Rs;
+        }// end of ReadFile method
+    }// end of CSVFile class
+
+  class MyModel1 extends AbstractTableModel {
+        private final String[] columnNames = { "ID", "First Name", "Last Name", "Program", "Level", "ASURITE"};
+        private ArrayList<String[]> Data = new ArrayList<String[]>();
+
+        public void AddCSVData(ArrayList<String[]> DataIn) {
+            this.Data = DataIn;
+            this.fireTableDataChanged();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;// length;
+        }
+
+        @Override
+        public int getRowCount() {
+            return Data.size();
+        }
+
+        @Override
+        public String getColumnName(int col) {
+            return columnNames[col];
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+            return Data.get(row)[col];
+        }
+    }
+
+//****************************************************************************************************************************** */
+
+      public void AttendanceRoster(String fileName) {
+        System.out.println(fileName);
+       // super(frame, "Load a Roaster", true);
+        setLayout(new BorderLayout ());
+        //super(frame1, "Load Roaster", true);
+        table2 = new JTable(new MyModel2());
+        table2.setPreferredScrollableViewportSize(new Dimension(700, 70));
+        table2.setFillsViewportHeight(true);
+        table2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //this.table.setTableHeader(null);
+        JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        add(ButtonOpen, BorderLayout.SOUTH);
+        // Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table2);
+        // Add the scroll pane to this panel.
+        add(scrollPane, BorderLayout.CENTER);
+        // add a nice border
+        table2.setBorder(new EmptyBorder(5, 5, 5, 5));
+        CSVFile2 Rd = new CSVFile2();
+        MyModel2 NewModel2 = new MyModel2();
+        this.table2.setModel(NewModel2);
+        
+
+        File DataFile = new File(fileName);
+        
+        ArrayList<String[]> Rs2 = Rd.ReadCSVfile(DataFile);
+        NewModel2.AddCSVData(Rs2);
+
+        row2= NewModel2.getRowCount();
+        col2=NewModel2.getColumnCount();
+        System.out.println("Rows: " + row2);
+        System.out.println("Cols: " + col2);
+    }
+
+    public class CSVFile2 {
+        private final ArrayList<String[]> Rs = new ArrayList<String[]>();
+        private String[] OneRow;
+
+        public ArrayList<String[]> ReadCSVfile(File DataFile) {
+            try {
+                BufferedReader brd = new BufferedReader(new FileReader(DataFile));
+                while (brd.ready()) {
+                    String st = brd.readLine();
+                    OneRow = st.split(",|\\s|;");
+                    Rs.add(OneRow);
+                    System.out.println(Arrays.toString(OneRow));
+                } // end of while
+            } // end of try
+            catch (Exception e) {
+                String errmsg = e.getMessage();
+                System.out.println("File not found:" + errmsg);
+            } // end of Catch
+            return Rs;
+        }// end of ReadFile method
+    }// end of CSVFile class
+
+  class MyModel2 extends AbstractTableModel {
+        private final String[] columnNames = { "ASURite", "Time"};
+        private ArrayList<String[]> Data = new ArrayList<String[]>();
+
+        public void AddCSVData(ArrayList<String[]> DataIn) {
+            this.Data = DataIn;
+            this.fireTableDataChanged();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;// length;
+        }
+
+        @Override
+        public int getRowCount() {
+            return Data.size();
+        }
+
+        @Override
+        public String getColumnName(int col) {
+            return columnNames[col];
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+            return Data.get(row)[col];
+        }
+    }
+//******************************************************************************************************************** */
+
+//Method for init..
 
 
 
+
+//******************************************************************************************************************** */
+
+
+//USER CHOOSES
     public void actionPerformed(ActionEvent e){
+
+
+
       if(e.getSource() == menuitem1)
       {
         System.out.println("roasttt");
@@ -116,9 +328,10 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
           File selectedFile = fileChooser.getSelectedFile();
           String fileName = selectedFile.getName();
           System.out.println(fileName);
-          //LoadRoaster(fileName);
-          LoadRoster l = new LoadRoster(fileName);
-          this.setContentPane(l);
+          LoadRoster(fileName);
+          //LoadRoster l = new LoadRoster(fileName);
+        //arrayAssignment();
+          //this.setContentPane(l);
           revalidate();
           
         }
@@ -141,8 +354,8 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
           File selectedFile = fileChooser.getSelectedFile();
           String fileName = selectedFile.getName();
           System.out.println(fileName);
-          AttendanceRoster a = new AttendanceRoster(fileName);
-          this.setContentPane(a);
+          AttendanceRoster(fileName);
+          //this.setContentPane(a);
           revalidate();
         }
         
@@ -172,7 +385,9 @@ public class MainFrame extends JFrame implements ActionListener, MenuListener
       }
     }
   */
-    
+
+
+  
     @Override
     public void menuSelected(MenuEvent e)
     {

@@ -18,6 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class LoadRoster extends JPanel {
     private final JTable table;
 
+    
     public LoadRoster(String fileName) {
         System.out.println(fileName);
        // super(frame, "Load a Roaster", true);
@@ -27,7 +28,7 @@ public class LoadRoster extends JPanel {
         this.table.setPreferredScrollableViewportSize(new Dimension(700, 70));
         this.table.setFillsViewportHeight(true);
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        this.table.setTableHeader(null);
+        //this.table.setTableHeader(null);
         JPanel ButtonOpen = new JPanel(new FlowLayout(FlowLayout.CENTER));
         add(ButtonOpen, BorderLayout.SOUTH);
         // Create the scroll pane and add the table to it.
@@ -76,6 +77,7 @@ public class LoadRoster extends JPanel {
     
     private static void createAndShowGUI(String fileName) {
         // Create and set up the window.
+        System.out.println("WTVVVV");
         JFrame frame = new JFrame("LoadRoster");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Create and set up the content pane.
@@ -89,7 +91,7 @@ public class LoadRoster extends JPanel {
     }
 
     class MyModel extends AbstractTableModel {
-        private final String[] columnNames = { "ID", "FS", "LS", "PP", "ACAD", "ASUrite"};
+        private final String[] columnNames = { "ID", "First Name", "Last Name", "Program", "Level", "ASURITE"};
         private ArrayList<String[]> Data = new ArrayList<String[]>();
 
         public void AddCSVData(ArrayList<String[]> DataIn) {
